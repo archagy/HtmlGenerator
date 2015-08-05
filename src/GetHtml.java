@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
+import org.jsoup.select.NodeTraversor;
 
 public class GetHtml {
 
@@ -13,6 +15,7 @@ public class GetHtml {
 	private ArrayList<String> litDiaList = new ArrayList<String>() ;
 	private Document doc;
 
+		
 	public Document setInfo(String ano,String dia, String mes){
 		try {
 			doc = Jsoup.connect("http://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano="+ano+"&mes="+mes+"&dia="+dia).get();
@@ -27,12 +30,15 @@ public class GetHtml {
 		return doc;
 	}
 
-	public void getResumen(Document doc){
+	public String getResumen(Document doc){
 		if(doc != null){
 			Elements docResumen = doc.select(".blog-post");
-			System.out.println(docResumen);
+			//Whitelist wl = Whitelist.simpleText();
+			//wl.addTags("div", "span", "class", "div id=*"); // add additional tags here as necessary
+			String clean = Jsoup.clean(docResumen.html(), Whitelist.relaxed());
+			return clean;
 		}else{
-			System.out.println("Error en la descarga");
+			return "Hubo un error en obtener la información";
 		}
 
 	}
@@ -44,18 +50,18 @@ public class GetHtml {
 			//System.out.println(docTitle.text());
 			return docTitle.text();
 		}else{
-			System.out.println("Error en la descarga");
-			return null;
+			return "Error en obtener información";
 		}
 	}
 
 	
-	public void getColor(Document doc){
+	public String getColor(Document doc){
 		if(doc != null){
 			Elements docTitle = doc.select(".container em");
-			System.out.println(docTitle.text());
+			return docTitle.text();
 		}else{
 			System.out.println("Error en la descarga");
+			return "Error en obtener la información";
 		}
 	}
 
@@ -80,7 +86,10 @@ public class GetHtml {
 		}
 	}
 
-	
+
 	
 
 }
+
+
+

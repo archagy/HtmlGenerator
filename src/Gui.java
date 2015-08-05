@@ -136,7 +136,6 @@ public class Gui {
 	          scroll.setBounds(56, 327, 510, 175);
 	          scroll.setViewportView(textArea);
 	          inicioPanel.add(scroll);
-	          
 
 	}
 	
@@ -189,6 +188,7 @@ public class Gui {
 			 try {
 			        SwingUtilities.invokeLater(new Runnable() {
 			          public void run() {
+			        	  
 			        	  for(int i=1; month <= 11; i++){
 			        			if(i==elem.getDayMonth(month, elem.getAno())){
 			        				month++;
@@ -209,7 +209,8 @@ public class Gui {
 						            
 						            
 						            String titulo = gh.getTitle(doc);
-						            
+						            String color = gh.getColor(doc);
+						            String resumen = gh.getResumen(doc);
 						            try {
 										if(folder.CreateCSSFile(elem.getAno())){
 											textArea.append("Generando el CSS \n");
@@ -225,7 +226,7 @@ public class Gui {
 						            if(!titulo.isEmpty()){
 						            	textArea.append("dia: "+i+" Mes: "+elem.getStringMonth(month)+" Titulo: "+titulo+"\n");
 						            	try {
-											if(folder.CreateHTMLFile(Integer.toString(i), elem.getStringMonth(month), elem.getAno())){
+											if(folder.CreateHTMLFile(Integer.toString(i), elem.getStringMonth(month), elem.getAno(), titulo,color, resumen )){
 												textArea.append("Generando HTML \n");
 											}else{
 												textArea.append("El HTML ya existe. \n");
