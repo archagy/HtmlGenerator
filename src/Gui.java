@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -16,10 +17,17 @@ import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
 import javax.swing.JComboBox;
@@ -48,6 +56,10 @@ public class Gui {
 	private JScrollPane scroll;
 	private JButton btnNewButton_1 = new JButton("New button");
 	JButton btnNewButton = new JButton("Cambiar Carpeta");
+	private boolean flag=true;
+	private final Action action_2 = new SwingAction_2();
+	private JButton btnNewButton_2 = new JButton("New button");
+	private Thread t1;
 	/**
 	 * Create the application.
 	 */
@@ -136,6 +148,12 @@ public class Gui {
 	          scroll.setBounds(56, 327, 510, 175);
 	          scroll.setViewportView(textArea);
 	          inicioPanel.add(scroll);
+	          
+	          
+	          btnNewButton_2.setAction(action_2);
+	          btnNewButton_2.setBounds(648, 253, 117, 29);
+	          btnNewButton_2.setEnabled(false);
+	          inicioPanel.add(btnNewButton_2);
 
 	}
 	
@@ -177,22 +195,38 @@ public class Gui {
 		}
 		public void actionPerformed(ActionEvent e) {
 			DisableButtons(false);
+			btnNewButton_2.setEnabled(true);
 			elem.setAno(comboBox.getSelectedItem().toString());
 			month=0;
+			
 			if(!folder.CreateFolderAno(elem.getAno())){
 				JOptionPane.showMessageDialog(frame, "Ya existe la carpeta, puede continuar");
 			}else{
 				JOptionPane.showMessageDialog(frame, "Se ha creado la carpeta: "+elem.getAno());
 			}
 			// i = dias
-			 try {
-			        SwingUtilities.invokeLater(new Runnable() {
+			
+				
+			 t1 = new Thread(new Runnable() {
 			          public void run() {
-			        	  
+			        	  System.out.println(flag);
+			        	 
+			        		  
 			        	  for(int i=1; month <= 11; i++){
 			        			if(i==elem.getDayMonth(month, elem.getAno())){
 			        				month++;
 			        				i=1;
+			        			}
+			        			
+			        			if(flag){
+			        				
+			        			}else{
+			        				flag=true;
+			        				DisableButtons(true);
+			        				break;
+			        				
+			        				
+			        				
 			        			}
 			        		
 			        			System.out.println("Día: "+i+" Mes: "+elem.getStringMonth(month));	
@@ -247,19 +281,30 @@ public class Gui {
 			        	  }
 			           
 			          }
-			        });
-			        java.lang.Thread.sleep(100);
-			      } catch (InterruptedException a) {
-			        ;
-			      }
-			
-			 DisableButtons(true);
+			          
+			        }); t1.start(); 
+			 
+			 
 			 progressBar_1.setValue(0);
 			 progressBar_1.repaint();
 			 progressBar_1.update(progressBar_1.getGraphics());
 		}
 		
 		
+		
 	}
-	
+	private class SwingAction_2 extends AbstractAction {
+		public SwingAction_2() {
+			putValue(NAME, "Detener");
+			putValue(SHORT_DESCRIPTION, "Cancela la descarga");
+		}
+		public void actionPerformed(ActionEvent e) {
+			flag=false;
+			System.out.println(flag);
+		}
+	}
 }
+
+
+
+

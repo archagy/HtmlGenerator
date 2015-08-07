@@ -1,16 +1,8 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 
 
 
@@ -54,7 +46,7 @@ public class Folder {
 	}
 
 	public boolean CreateHTMLFile(String dia,String mes, String ano, String title, String color, String resumen) throws IOException{
-		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml/"+ano+"/"+dia+"_"+mes+"_"+ano+".html");
+		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml/"+ano+"/"+ano+mes+dia+".html");
 		if(!folderHtml.exists()){
 			folderHtml.createNewFile();
 			FileWriter fw = new FileWriter(folderHtml.getAbsoluteFile());
