@@ -55,10 +55,15 @@ public class Folder {
 			bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://w3.org/TR/REC-html40/loose.dtd\">");
 			bw.newLine();
 			//HEAD
-			bw.write("<HTML> <head> <title>"+" Liturgia :: A Palavra de Deus na Vida :: CNBB "+ " </title> <meta charset=\"utf-8\"> <link rel=\"stylesheet\" type=\"text/css\" href=\"liturgia.css\"> </head>");
+			bw.write("<HTML> <head> <title>"+" Liturgia :: A Palavra de Deus na Vida :: CNBB "+ " </title> ");
 			bw.newLine();
+			bw.write("<style>");
+			bw.newLine();
+			bw.write(" body { font-family: Georgia, \"Times New Roman\", Times, serif; color: #555; } h1 { font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; color: #333; float: left; width: 50%; } p { margin: 0px; padding: 0px; } .clear { clear: both; } .blog-header { padding-top: 10px; padding-bottom: 20px; border-bottom: 1px solid #cecece; margin-bottom: 10px; } .text-right { text-align: right; } .bs-callout-info { border-left-color: #5bc0de; } .bs-callout { padding: 20px; margin: 20px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; } .bs-callout h2 { color: #06799C; font-weight: bold; letter-spacing: -0.1em; } .pull-right { float: right; } .cuadro { width: 50%; padding: 10px 30px 10px 30px; }");
+			bw.newLine();
+			bw.write("</style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"> </head>");
 			//Body
-			bw.write("	<body> <div class=\"blog-header\"> <h1> Liturgia Diária </h1> <p class=\"text-right\"> </p> </div> <div class=\"clear\"></div> <div class=\"bs-callout bs-callout-info\">  <h2> "+title+"</h2> <p class=\"pull-right\">"+ color+" </p> </div>");
+			bw.write("	<body> <div class=\"blog-header\">  <p class=\"text-right\"> </p> </div> <div class=\"clear\"></div> <div class=\"bs-callout bs-callout-info\">  <h2> "+title+"</h2>  </div>");
 			bw.newLine();
 			//Body Resumen
 			bw.write("<div class=\"clear\"></div> <div class=\"cuadro\">");

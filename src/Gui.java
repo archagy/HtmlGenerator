@@ -1,9 +1,7 @@
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
+
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -16,22 +14,15 @@ import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.Timer;
 
-import java.awt.GridLayout;
-import java.awt.Insets;
+
+
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 
 import javax.swing.Action;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
+
 import javax.swing.text.DefaultCaret;
 
 import org.jsoup.nodes.Document;
@@ -222,11 +213,22 @@ public class Gui {
 			        				
 			        			}else{
 			        				flag=true;
+			        				 progressBar_1.setValue(0);
+			        				 progressBar_1.repaint();
+			        				 progressBar_1.update(progressBar_1.getGraphics());
 			        				DisableButtons(true);
 			        				break;
+			        			}
+			        			
+			        			if(month <= 11){
 			        				
-			        				
-			        				
+			        			}else{
+			        				 flag=true;
+			        				 DisableButtons(true);
+			        				 progressBar_1.setValue(0);
+			        				 progressBar_1.repaint();
+			        				 progressBar_1.update(progressBar_1.getGraphics());
+			        				break;
 			        			}
 			        		
 			        			System.out.println("Día: "+i+" Mes: "+elem.getStringMonth(month));	
@@ -245,16 +247,6 @@ public class Gui {
 						            String titulo = gh.getTitle(doc);
 						            String color = gh.getColor(doc);
 						            String resumen = gh.getResumen(doc);
-						            try {
-										if(folder.CreateCSSFile(elem.getAno())){
-											textArea.append("Generando el CSS \n");
-										}else{
-											textArea.append("El CSS ya existe. \n");
-										}
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
 						            
 						            textArea.append("Obteniendo Información... \n");
 						            if(!titulo.isEmpty()){
@@ -277,17 +269,16 @@ public class Gui {
 						            	textArea.update(textArea.getGraphics());
 					        			scroll.update(scroll.getGraphics());
 						            }
-						            
+						        
 			        	  }
 			           
 			          }
+			         
 			          
 			        }); t1.start(); 
+			   
 			 
-			 
-			 progressBar_1.setValue(0);
-			 progressBar_1.repaint();
-			 progressBar_1.update(progressBar_1.getGraphics());
+		
 		}
 		
 		
