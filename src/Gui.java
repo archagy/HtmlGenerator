@@ -1,8 +1,4 @@
-
-
 import java.io.IOException;
-
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -99,7 +95,7 @@ public class Gui {
 		btnNewButton.setAction(action);
 		inicioPanel.add(btnNewButton);
 		
-		JLabel lblFecha = new JLabel("Año: ");
+		JLabel lblFecha = new JLabel("A\u00f1o: ");
 		lblFecha.setBounds(39, 109, 61, 16);
 		inicioPanel.add(lblFecha);
 		
@@ -129,9 +125,9 @@ public class Gui {
 		textArea.setBounds(56, 327, 510, 175);
 		textArea.setEditable(false);
 		textArea.setVisible(true);
-		DefaultCaret caret = (DefaultCaret) textArea.getCaret(); // ←
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);       // ←
-		
+		DefaultCaret caret = (DefaultCaret) textArea.getCaret(); // 
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);       //
+	
 	    scroll = new JScrollPane (textArea);
 		
 	    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -217,6 +213,7 @@ public class Gui {
 			        				 progressBar_1.repaint();
 			        				 progressBar_1.update(progressBar_1.getGraphics());
 			        				DisableButtons(true);
+			        				JOptionPane.showMessageDialog(frame, "Se ha detenido la descarga");
 			        				break;
 			        			}
 			        			
@@ -228,11 +225,12 @@ public class Gui {
 			        				 progressBar_1.setValue(0);
 			        				 progressBar_1.repaint();
 			        				 progressBar_1.update(progressBar_1.getGraphics());
-			        				break;
+			        				 JOptionPane.showMessageDialog(frame, "Se ha finalizado la descarga");
+			        				 break;
 			        			}
 			        		
-			        			System.out.println("Día: "+i+" Mes: "+elem.getStringMonth(month));	
-			        			//textArea.append("Día: "+i+" Mes: "+elem.getStringMonth(month)+"\n");
+			        			System.out.println("Dia: "+i+" Mes: "+elem.getStringMonth(month));	
+			        			//textArea.append("DÃ­a: "+i+" Mes: "+elem.getStringMonth(month)+"\n");
 			        			
 			        			progressBar_1.setValue(month);
 						            progressBar_1.repaint();
@@ -248,7 +246,7 @@ public class Gui {
 						            String color = gh.getColor(doc);
 						            String resumen = gh.getResumen(doc);
 						            
-						            textArea.append("Obteniendo Información... \n");
+						            textArea.append("Obteniendo Informacion... \n");
 						            if(!titulo.isEmpty()){
 						            	textArea.append("dia: "+i+" Mes: "+elem.getStringMonth(month)+" Titulo: "+titulo+"\n");
 						            	try {
@@ -264,7 +262,7 @@ public class Gui {
 						            	textArea.update(textArea.getGraphics());
 					        			scroll.update(scroll.getGraphics());
 						            }else{
-						            	textArea.append("No existe elementos para este día.\n");
+						            	textArea.append("No existe elementos para este dia.\n");
 						            	textArea.append("dia: "+i+" Mes: "+elem.getStringMonth(month)+"\n");
 						            	textArea.update(textArea.getGraphics());
 					        			scroll.update(scroll.getGraphics());
@@ -295,7 +293,3 @@ public class Gui {
 		}
 	}
 }
-
-
-
-
