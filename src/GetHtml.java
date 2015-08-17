@@ -1,95 +1,92 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 
-public class Folder {
-	private File folderPath;
-
-	public void setFolder(File newFolder){
-		this.folderPath = new File(newFolder.getAbsolutePath());
-		CreateFolder();
-	}
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 
 
-	public Boolean CreateFolderAno(String folder){
-		File folderAno = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml/"+folder);
-		if(folderAno.exists()){
-			return false;
-		}else{
-			folderAno.mkdir();
-			return true;
+public class GetHtml {
 
+
+	private ArrayList<String> litDiaList = new ArrayList<String>() ;
+	private Document doc;
+
+		
+	public Document setInfo(String ano,String dia, String mes){
+		try {
+			String url = "http://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano="+ano+"&mes="+mes+"&dia="+dia;
+			 doc = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
+			
+			//getTitle(doc);
+			//getLiteraturasDia(doc);
+			//getResumen(doc);
+			//getColor(doc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-	public void CreateFolder(){
-		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml");
-
-		if(folderHtml.exists()){
-
-		}else{
-			folderHtml.mkdir();
-		}
+		return doc;
 	}
 
-	public Boolean FolderExists(){
-		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml");
-		if(folderHtml.exists()){
-			return true;
+	public String getResumen(Document doc){
+		if(doc != null){
+			Elements docResumen = doc.select(".blog-post");
+			//Whitelist wl = Whitelist.simpleText();
+			//wl.addTags("div", "span", "class", "div id=*"); // add additional tags here as necessary
+			String clean = Jsoup.clean(docResumen.html(), Whitelist.relaxed());
+			return clean;
 		}else{
-			return false;
-		}
-	}
-
-	public boolean CreateHTMLFile(String dia,String mes, String ano, String title, String color, String resumen) throws IOException{
-		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml/"+ano+"/"+ano+mes+dia+".html");
-		if(!folderHtml.exists()){
-			folderHtml.createNewFile();
-			FileWriter fw = new FileWriter(folderHtml.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			//Insertal codigo HTML
-			bw.write("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://w3.org/TR/REC-html40/loose.dtd\">");
-			bw.newLine();
-			//HEAD
-			bw.write("<HTML> <head> <title>"+" Liturgia :: A Palavra de Deus na Vida :: CNBB "+ " </title> ");
-			bw.newLine();
-			bw.write("<style>");
-			bw.newLine();
-			bw.write(" body { font-family: Georgia, \"Times New Roman\", Times, serif; color: #555; } h1 { font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; color: #333; float: left; width: 50%; } p { margin: 0px; padding: 0px; } .clear { clear: both; } .blog-header { padding-top: 10px; padding-bottom: 20px; border-bottom: 1px solid #cecece; margin-bottom: 10px; } .text-right { text-align: right; } .bs-callout-info { border-left-color: #5bc0de; } .bs-callout { padding: 20px; margin: 20px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; } .bs-callout h2 { color: #06799C; font-weight: bold; letter-spacing: -0.1em; } .pull-right { float: right; } .cuadro { width: 50%; padding: 10px 30px 10px 30px; }");
-			bw.newLine();
-			bw.write("</style> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-15 \"> </head>");
-			//Body
-			bw.write("	<body> <div class=\"blog-header\">  <p class=\"text-right\"> </p> </div> <div class=\"clear\"></div> <div class=\"bs-callout bs-callout-info\">  <h2> "+title+"</h2>  </div>");
-			bw.newLine();
-			//Body Resumen
-			bw.write("<div class=\"clear\"></div> <div class=\"cuadro\">");
-			bw.newLine();
-			bw.write(resumen);
-			bw.newLine();
-			bw.write("</div> </div>");
-			//cierre
-			bw.write("</body> </HTML>");
-			bw.close();
-			return true;
-		}else{
-			return false;
+			return "Hubo un error en obtener la informacion";
 		}
 
 	}
-
-	public boolean CreateCSSFile(String ano) throws IOException{
-		File folderHtml = new File(folderPath.getAbsoluteFile().toString()+"/GenerateHtml/"+ano+"/liturgia.css");
-		if(!folderHtml.exists()){
-			folderHtml.createNewFile();
-			FileWriter fw = new FileWriter(folderHtml.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			//Insertal codigo css
-			bw.write(" body { font-family: Georgia, \"Times New Roman\", Times, serif; color: #555; } h1 { font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif; color: #333; float: left; width: 50%; } p { margin: 0px; padding: 0px; } .clear { clear: both; } .blog-header { padding-top: 10px; padding-bottom: 20px; border-bottom: 1px solid #cecece; margin-bottom: 10px; } .text-right { text-align: right; } .bs-callout-info { border-left-color: #5bc0de; } .bs-callout { padding: 20px; margin: 20px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; } .bs-callout h2 { color: #06799C; font-weight: bold; letter-spacing: -0.1em; } .pull-right { float: right; } .cuadro { width: 50%; padding: 10px 30px 10px 30px; }");
-			bw.close();
-			return true;
+	
+	
+	public String getTitle(Document doc){
+		if(doc != null){
+			
+			Elements docTitle = doc.select(".container h2");
+			//System.out.println(docTitle.text());
+			return docTitle.text().trim();
 		}else{
-			return false;
+			return "Error en obtener informacion";
 		}
+	}
 
+	
+	public String getColor(Document doc){
+		if(doc != null){
+			Elements docTitle = doc.select(".container em");
+			return docTitle.text();
+		}else{
+			System.out.println("Error en la descarga");
+			return "Error en obtener la informacion";
+		}
+	}
+
+
+
+
+
+
+	public void getLiteraturasDia(Document doc){
+		if(doc != null){
+			Elements newsHeadlines = doc.select(".list-group-item strong");
+			for(Element element : newsHeadlines){
+				//	System.out.println(element.text());
+				litDiaList.add(element.text());
+				System.out.println(litDiaList);
+			}
+
+
+
+		}else{
+			System.out.println("Hubo un error con la descarga.");
+		}
 	}
 }
