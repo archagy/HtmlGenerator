@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -7,7 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
-import org.jsoup.select.NodeTraversor;
+
 
 public class GetHtml {
 
@@ -18,7 +19,9 @@ public class GetHtml {
 		
 	public Document setInfo(String ano,String dia, String mes){
 		try {
-			doc = Jsoup.connect("http://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano="+ano+"&mes="+mes+"&dia="+dia).get();
+			String url = "http://liturgiadiaria.cnbb.org.br/app/user/user/UserView.php?ano="+ano+"&mes="+mes+"&dia="+dia;
+			 doc = Jsoup.parse(new URL(url).openStream(), "UTF-8", url);
+			
 			//getTitle(doc);
 			//getLiteraturasDia(doc);
 			//getResumen(doc);
@@ -38,7 +41,7 @@ public class GetHtml {
 			String clean = Jsoup.clean(docResumen.html(), Whitelist.relaxed());
 			return clean;
 		}else{
-			return "Hubo un error en obtener la información";
+			return "Hubo un error en obtener la informacion";
 		}
 
 	}
@@ -46,11 +49,12 @@ public class GetHtml {
 	
 	public String getTitle(Document doc){
 		if(doc != null){
+			
 			Elements docTitle = doc.select(".container h2");
 			//System.out.println(docTitle.text());
-			return docTitle.text();
+			return docTitle.text().trim();
 		}else{
-			return "Error en obtener información";
+			return "Error en obtener informacion";
 		}
 	}
 
@@ -61,7 +65,7 @@ public class GetHtml {
 			return docTitle.text();
 		}else{
 			System.out.println("Error en la descarga");
-			return "Error en obtener la información";
+			return "Error en obtener la informacion";
 		}
 	}
 
@@ -90,6 +94,3 @@ public class GetHtml {
 	
 
 }
-
-
-
